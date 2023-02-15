@@ -1,78 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [selectedQuote, setSelectedQuote] = useState({});
+  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    const fetchQuote = async () => {
-      try {
-        const response = await axios.get('https://api.quotable.io/random');
-        setSelectedQuote(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchQuote();
-  }, []);
+  const handleIncrement = () => {
+    setCount(count + 1);
+  }
 
-  const handleNewQuote = () => {
-    const fetchQuote = async () => {
-      try {
-        const response = await axios.get('https://api.quotable.io/random');
-        setSelectedQuote(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchQuote();
-  };
+  const handleDecrement = () => {
+    setCount(count - 1);
+  }
+
+  let counterColor = 'green';
+  if (count >= 5 && count <= 9) {
+    counterColor = 'blue';
+  } else if (count === 10) {
+    counterColor = 'red';
+  }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        fontFamily: "sans-serif"
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#f2f2f2",
-          padding: "2rem",
-          borderRadius: "5px",
-          boxShadow: "0 0 10px #ccc"
-        }}
-      >
-        <p
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: "1rem"
-          }}
-        >
-          "{selectedQuote.content}"
-        </p>
-        <p style={{ textAlign: "right" }}>- {selectedQuote.author}</p>
+    <div className="App">
+      <h1 style={{ color: counterColor }}>{count}</h1>
+      <div className="buttons">
+        <button onClick={handleDecrement}>-</button>
+        <button onClick={handleIncrement}>+</button>
       </div>
-      <button
-        onClick={handleNewQuote}
-        style={{
-          marginTop: "1rem",
-          padding: "0.5rem 1rem",
-          backgroundColor: "#333",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        New Quote
-      </button>
     </div>
   );
 }
